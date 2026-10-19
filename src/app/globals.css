@@ -263,3 +263,50 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ══════════ انیمیشن‌های CSS خالص — بدون وابستگی به JS/IntersectionObserver ══════════
+   محتوای اسلاید در HTML اولیه (SSR) کاملاً نمایان است و انیمیشن فقط تزئینی است؛
+   حتی اگر جاوااسکریپت در iframe پنل پیش‌نمایش اجرا نشود، همه‌چیز دیده می‌شود. */
+
+@keyframes deck-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--deck-x, -70px)) scale(0.985);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes deck-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ورود خودِ اسلاید — با تغییر key توسط React دوباره اجرا می‌شود */
+.deck-slide-frame {
+  animation: deck-slide-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ورود پله‌ای محتوای داخل اسلاید — backwards یعنی در فاصله delay مخفی ولی موقت */
+.deck-fade {
+  animation: deck-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-slide-frame,
+  .deck-fade {
+    animation: none;
+  }
+}

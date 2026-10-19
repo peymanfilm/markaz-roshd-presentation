@@ -59,3 +59,21 @@ Work Log:
 Stage Summary:
 - پروژه آماده ارائه است: ارائه HTML ۳۰ اسلایدی RTL فارسی، تم سورمه‌ای تیره + طلایی، انیمیشن‌های Magic UI (BlurFade، GridPattern، Meteors، Ripple، BorderBeam، MagicCard و…)، ناوبری کیبورد/لمسی/هش، پخش خودکار (کلید P)، تمام‌صفحه (کلید F).
 - کاربر می‌تواند از پنل Preview (دکمه Open in New Tab) ارائه را مشاهده کند.
+
+---
+Task ID: 4
+Agent: main (Z.ai Code)
+Task: رفع مشکل «هیچ چیزی نمایش داده نمیشه» در پنل Preview کاربر
+
+Work Log:
+- ریشه‌یابی: کل محتوای اسلایدها داخل framer-motion (BlurFade با initial="hidden" و useInView + AnimatePresence با initial opacity:0) بود؛ در HTML اولیه (SSR) همه‌چیز با opacity:0 ارسال می‌شد و اگر JS در iframe پنل Preview به هر دلیلی هیدریت نمی‌شد، صفحه کاملاً خالی (فقط پس‌زمینه سرمه‌ای) دیده می‌شد.
+- راه‌حل: تبدیل کامل انیمیشن‌های ورود به CSS خالص بدون وابستگی به JS/IntersectionObserver:
+  * globals.css: keyframes جدید deck-slide-in و deck-fade-up + کلاس‌های .deck-slide-frame و .deck-fade (با fill-mode backwards برای پله‌ای) + پشتیبانی prefers-reduced-motion.
+  * parts.tsx: کامپوننت Fade (CSS-based) جایگزین BlurFade شد — همان props (delay, className).
+  * slides.tsx: ۹۵ کاربرد BlurFade با sed به Fade تبدیل و import اصلاح شد.
+  * deck-viewer.tsx: AnimatePresence/motion حذف شد؛ ورود اسلاید با key={index} + کلاس deck-slide-frame و متغیر --deck-x برای جهت حرکت (RTL).
+- تأیید: curl HTML اولیه → محتوای اسلاید جلد کاملاً نمایان در SSR (بدون opacity:0 روی محتوا؛ فقط opacity:0.18 افکت Ripple). lint پاک. نشست تازه مرورگر: ERROR COUNT: 0؛ اسلایدهای ۱، ۲، ۳ و ۲۲ اسکرین‌شات و تأیید شدند؛ کیبورد و hash-nav سالم.
+
+Stage Summary:
+- صفحه اکنون حتی بدون اجرای JS هم محتوا را نشان می‌دهد (انیمیشن‌ها CSS خالص‌اند و همه Magic UI های تزئینی مثل Meteors/GridPattern/Ripple/BorderBeam/Marquee خودشان CSS هستند).
+- کاربر باید پنل Preview را یک بار Refresh کند.

@@ -6,7 +6,6 @@ import {
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 import { BorderBeam } from "@/components/ui/border-beam";
-import { BlurFade } from "@/components/ui/blur-fade";
 import { Marquee } from "@/components/ui/marquee";
 import { MagicCard } from "@/components/ui/magic-card";
 import { Meteors } from "@/components/ui/meteors";
@@ -31,6 +30,7 @@ import type { SlideData } from "@/lib/deck-data";
 import { deckMeta, slides } from "@/lib/deck-data";
 import {
   Bullet,
+  Fade,
   Medallion,
   NoteStrip,
   SlideBackdrop,
@@ -55,7 +55,7 @@ function Cover() {
         <Ripple mainCircleSize={260} mainCircleOpacity={0.18} numCircles={5} />
       </div>
 
-      <BlurFade delay={0.05} className="relative z-10 mb-[1.2cqw]">
+      <Fade delay={0.05} className="relative z-10 mb-[1.2cqw]">
         <div className="relative flex h-[9cqw] w-[9cqw] items-center justify-center">
           <OrbitingCircles duration={26} radius={110} path={false} speed={0.7}>
             <BookOpenText className="size-[1.6cqw] text-[var(--gold-300)]" />
@@ -71,9 +71,9 @@ function Cover() {
             <Sprout className="size-[2.7cqw] text-[var(--gold-300)]" />
           </div>
         </div>
-      </BlurFade>
+      </Fade>
 
-      <BlurFade delay={0.18} className="relative z-10">
+      <Fade delay={0.18} className="relative z-10">
         <h1 className="text-[3.4cqw] font-black leading-[1.55] text-[var(--ivory)]">
           آیین‌نامه مرکز رشد واحدهای فناور
           <span className="mt-[0.3cqw] block text-[2.9cqw]">
@@ -85,13 +85,13 @@ function Cover() {
         <p className="mt-[0.7cqw] text-[2.1cqw] font-bold tracking-wide text-[var(--gold-300)]">
           {deckMeta.org}
         </p>
-      </BlurFade>
+      </Fade>
 
-      <BlurFade delay={0.32} className="relative z-10">
+      <Fade delay={0.32} className="relative z-10">
         <div className="hairline mx-auto mt-[1.3cqw] h-px w-[34cqw]" />
-      </BlurFade>
+      </Fade>
 
-      <BlurFade delay={0.45} className="relative z-10">
+      <Fade delay={0.45} className="relative z-10">
         <div className="glass-card relative mt-[1.5cqw] overflow-hidden rounded-full px-[2.4cqw] py-[0.6cqw]">
           <BorderBeam size={70} duration={5} colorFrom="#f1dc93" colorTo="#a9861d" />
           <div className="flex items-center gap-[1.2cqw] text-[1.25cqw] text-[var(--ivory)]/90">
@@ -100,7 +100,7 @@ function Cover() {
             <span>{deckMeta.date}</span>
           </div>
         </div>
-      </BlurFade>
+      </Fade>
     </div>
   );
 }
@@ -112,7 +112,7 @@ function Toc({ slide }: { slide: Extract<SlideData, { kind: "toc" }> }) {
       <SlideHeader title="فهرست مطالب" page="آیین‌نامه" part="ماده‌های ۱ تا ۱۳" />
       <div className="grid flex-1 grid-cols-2 gap-x-[1.4cqw] gap-y-[0.85cqw] content-center">
         {slide.items.map((it, i) => (
-          <BlurFade
+          <Fade
             key={it.n}
             delay={0.1 + i * 0.05}
             className="glass-card-soft flex items-center gap-[0.85cqw] rounded-[0.8cqw] px-[1cqw] py-[0.62cqw]"
@@ -126,7 +126,7 @@ function Toc({ slide }: { slide: Extract<SlideData, { kind: "toc" }> }) {
                 {it.chapter}
               </span>
             ) : null}
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -144,30 +144,30 @@ function SectionSlide({ slide }: { slide: Extract<SlideData, { kind: "section" }
       >
         {slide.kicker}
       </span>
-      <BlurFade>
+      <Fade>
         <span className="glass-card rounded-full px-[1.6cqw] py-[0.5cqw]">
           <AnimatedShinyText className="text-[1.3cqw] font-bold text-[var(--gold-200)]">
             {slide.kicker}
           </AnimatedShinyText>
         </span>
-      </BlurFade>
-      <BlurFade delay={0.12}>
+      </Fade>
+      <Fade delay={0.12}>
         <h2 className="mt-[1.2cqw] text-[4cqw] font-black leading-[1.4]">
           <AnimatedGradientText speed={1.4} colorFrom="#f1dc93" colorTo="#b8860b">
             {slide.title}
           </AnimatedGradientText>
         </h2>
-      </BlurFade>
+      </Fade>
       {slide.sub ? (
-        <BlurFade delay={0.24}>
+        <Fade delay={0.24}>
           <p className="mt-[1cqw] max-w-[70cqw] text-[1.5cqw] leading-[1.9] text-[var(--ink-muted)]">
             {slide.sub}
           </p>
-        </BlurFade>
+        </Fade>
       ) : null}
-      <BlurFade delay={0.34}>
+      <Fade delay={0.34}>
         <div className="hairline mx-auto mt-[1.6cqw] h-px w-[26cqw]" />
-      </BlurFade>
+      </Fade>
     </div>
   );
 }
@@ -179,7 +179,7 @@ function Defs({ slide }: { slide: Extract<SlideData, { kind: "defs" }> }) {
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
       <div className="grid flex-1 grid-cols-2 gap-[1.2cqw] content-center">
         {slide.defs.map((d, i) => (
-          <BlurFade
+          <Fade
             key={d.n}
             delay={0.12 + i * 0.09}
             className="glass-card relative flex items-start gap-[1cqw] rounded-[1.1cqw] p-[1.6cqw]"
@@ -192,7 +192,7 @@ function Defs({ slide }: { slide: Extract<SlideData, { kind: "defs" }> }) {
                 className="mt-[0.4cqw] block text-[1.32cqw] leading-[2] text-[var(--ivory)]/88"
               />
             </div>
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -206,7 +206,7 @@ function DefHero({ slide }: { slide: Extract<SlideData, { kind: "defhero" }> }) 
       <SlideHeader title={slide.title} page={slide.page} part="بخش ۲ از ۳" />
       <div className="grid flex-1 grid-cols-2 gap-[1.2cqw] content-center">
         {slide.defs.map((d, i) => (
-          <BlurFade
+          <Fade
             key={d.n}
             delay={0.1 + i * 0.1}
             className="glass-card relative flex items-start gap-[1cqw] rounded-[1.1cqw] p-[1.5cqw]"
@@ -219,12 +219,12 @@ function DefHero({ slide }: { slide: Extract<SlideData, { kind: "defhero" }> }) 
                 className="mt-[0.35cqw] block text-[1.24cqw] leading-[1.95] text-[var(--ivory)]/88"
               />
             </div>
-          </BlurFade>
+          </Fade>
         ))}
       </div>
-      <BlurFade delay={0.3} className="grid grid-cols-5 gap-[0.9cqw]">
+      <Fade delay={0.3} className="grid grid-cols-5 gap-[0.9cqw]">
         {slide.stats?.map((s) => <StatChip key={s.l} v={s.v} l={s.l} />)}
-      </BlurFade>
+      </Fade>
       {slide.note ? <NoteStrip note={slide.note} delay={0.4} /> : null}
     </div>
   );
@@ -235,7 +235,7 @@ function Mission({ slide }: { slide: Extract<SlideData, { kind: "mission" }> }) 
   return (
     <div className="flex h-full flex-col gap-[1.2cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} />
-      <BlurFade
+      <Fade
         delay={0.1}
         className="glass-card relative overflow-hidden rounded-[1.1cqw] p-[1.5cqw] text-center"
       >
@@ -244,10 +244,10 @@ function Mission({ slide }: { slide: Extract<SlideData, { kind: "mission" }> }) 
           text={slide.intro}
           className="text-[1.6cqw] font-bold leading-[1.95] text-[var(--ivory)]"
         />
-      </BlurFade>
+      </Fade>
       <div className="grid flex-1 grid-cols-2 gap-[1.2cqw] content-center">
         {slide.goals.map((g, i) => (
-          <BlurFade
+          <Fade
             key={g.t}
             delay={0.2 + i * 0.09}
             className="glass-card-soft flex items-start gap-[0.9cqw] rounded-[1cqw] p-[1.25cqw]"
@@ -260,7 +260,7 @@ function Mission({ slide }: { slide: Extract<SlideData, { kind: "mission" }> }) 
                 className="mt-[0.3cqw] block text-[1.22cqw] leading-[1.95] text-[var(--ivory)]/85"
               />
             </div>
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -272,12 +272,12 @@ function Bento6({ slide }: { slide: Extract<SlideData, { kind: "bento6" }> }) {
   return (
     <div className="flex h-full flex-col gap-[1.2cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} />
-      <BlurFade delay={0.1}>
+      <Fade delay={0.1}>
         <p className="text-[1.45cqw] font-semibold leading-[1.8] text-[var(--ink-muted)]">{slide.intro}</p>
-      </BlurFade>
+      </Fade>
       <div className="grid flex-1 grid-cols-3 gap-[1.2cqw] content-center">
         {slide.items.map((it, i) => (
-          <BlurFade key={it} delay={0.16 + i * 0.07}>
+          <Fade key={it} delay={0.16 + i * 0.07}>
             <MagicCard
               className="h-full rounded-[1.1cqw]"
               gradientFrom="rgba(212,175,55,0.9)"
@@ -293,7 +293,7 @@ function Bento6({ slide }: { slide: Extract<SlideData, { kind: "bento6" }> }) {
                 <span className="text-[1.42cqw] font-extrabold leading-[1.6] text-[var(--ivory)]">{it}</span>
               </div>
             </MagicCard>
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -306,13 +306,13 @@ function Panels({ slide }: { slide: Extract<SlideData, { kind: "panels" }> }) {
     <div className="flex h-full flex-col gap-[1.1cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
       {slide.intro ? (
-        <BlurFade delay={0.1}>
+        <Fade delay={0.1}>
           <p className="text-[1.45cqw] font-semibold leading-[1.8] text-[var(--ink-muted)]">{slide.intro}</p>
-        </BlurFade>
+        </Fade>
       ) : null}
       <div className="flex flex-1 flex-col justify-center gap-[1.1cqw]">
         {slide.panels.map((p, i) => (
-          <BlurFade
+          <Fade
             key={p.t}
             delay={0.16 + i * 0.1}
             className="glass-card flex items-start gap-[1cqw] rounded-[1.1cqw] p-[1.4cqw]"
@@ -325,7 +325,7 @@ function Panels({ slide }: { slide: Extract<SlideData, { kind: "panels" }> }) {
                 className="mt-[0.3cqw] block text-[1.3cqw] leading-[1.95] text-[var(--ivory)]/88"
               />
             </div>
-          </BlurFade>
+          </Fade>
         ))}
         {slide.notes ? (
           <div className="flex flex-col gap-[0.7cqw]">
@@ -345,13 +345,13 @@ function Numbered({ slide }: { slide: Extract<SlideData, { kind: "numbered" }> }
     <div className="flex h-full flex-col p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} />
       {slide.sub ? (
-        <BlurFade delay={0.1}>
+        <Fade delay={0.1}>
           <p className="mb-[0.9cqw] text-[1.4cqw] font-semibold text-[var(--ink-muted)]">{slide.sub}</p>
-        </BlurFade>
+        </Fade>
       ) : null}
       <div className="flex flex-1 flex-col justify-center gap-[0.85cqw]">
         {slide.items.map((it, i) => (
-          <BlurFade
+          <Fade
             key={i}
             delay={0.12 + i * 0.08}
             className="glass-card-soft flex items-center gap-[1cqw] rounded-[0.9cqw] px-[1.2cqw] py-[0.8cqw]"
@@ -361,7 +361,7 @@ function Numbered({ slide }: { slide: Extract<SlideData, { kind: "numbered" }> }
               text={it.t}
               className="text-[1.3cqw] leading-[1.85] text-[var(--ivory)]/90"
             />
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -375,7 +375,7 @@ function Checklist({ slide }: { slide: Extract<SlideData, { kind: "checklist" }>
       <SlideHeader title={slide.title} page={slide.page} />
       <div className="flex flex-1 flex-col justify-center gap-[0.85cqw]">
         {slide.items.map((it, i) => (
-          <BlurFade
+          <Fade
             key={i}
             delay={0.1 + i * 0.08}
             className="glass-card-soft flex items-start gap-[0.9cqw] rounded-[0.9cqw] px-[1.2cqw] py-[0.85cqw]"
@@ -387,7 +387,7 @@ function Checklist({ slide }: { slide: Extract<SlideData, { kind: "checklist" }>
               text={it}
               className="text-[1.32cqw] font-medium leading-[1.85] text-[var(--ivory)]/90"
             />
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -401,7 +401,7 @@ function Rules({ slide }: { slide: Extract<SlideData, { kind: "rules" }> }) {
       <SlideHeader title={slide.title} page={slide.page} />
       <div className="flex flex-1 flex-col justify-center gap-[0.7cqw]">
         {slide.items.map((it, i) => (
-          <BlurFade
+          <Fade
             key={i}
             delay={0.1 + i * 0.08}
             className="glass-card-soft flex items-start gap-[0.9cqw] rounded-[0.9cqw] px-[1.15cqw] py-[0.72cqw]"
@@ -411,14 +411,14 @@ function Rules({ slide }: { slide: Extract<SlideData, { kind: "rules" }> }) {
               text={it}
               className="text-[1.24cqw] leading-[1.85] text-[var(--ivory)]/90"
             />
-          </BlurFade>
+          </Fade>
         ))}
       </div>
-      <BlurFade delay={0.42} className="grid grid-cols-4 gap-[1cqw]">
+      <Fade delay={0.42} className="grid grid-cols-4 gap-[1cqw]">
         {slide.chips.map((c) => (
           <StatChip key={c.l} v={c.v} l={c.l} />
         ))}
-      </BlurFade>
+      </Fade>
     </div>
   );
 }
@@ -430,16 +430,16 @@ function Flow({ slide }: { slide: Extract<SlideData, { kind: "flow" }> }) {
     <div className="flex h-full flex-col gap-[0.9cqw] p-[2.8cqw]">
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
       {slide.intro ? (
-        <BlurFade delay={0.1}>
+        <Fade delay={0.1}>
           <p className="glass-card-soft rounded-[0.8cqw] px-[1.1cqw] py-[0.55cqw] text-[1.12cqw] leading-[1.8] text-[var(--ink-muted)]">
             {slide.intro}
           </p>
-        </BlurFade>
+        </Fade>
       ) : null}
       <div className="flex flex-1 items-stretch gap-[0.55cqw]">
         {slide.steps.map((st, i) => (
           <div key={st.t} className="flex min-w-0 flex-1 items-stretch gap-[0.55cqw]">
-            <BlurFade
+            <Fade
               delay={0.14 + i * 0.09}
               className="glass-card flex min-w-0 flex-1 flex-col rounded-[1cqw] p-[1cqw]"
             >
@@ -457,7 +457,7 @@ function Flow({ slide }: { slide: Extract<SlideData, { kind: "flow" }> }) {
                   <Bullet key={j} text={b} delay={0.24 + i * 0.09 + j * 0.05} dense={four} />
                 ))}
               </div>
-            </BlurFade>
+            </Fade>
             {i < slide.steps.length - 1 ? (
               <div aria-hidden className="flex items-center">
                 <ArrowLeft className="size-[1.15cqw] shrink-0 text-[var(--gold-400)]" />
@@ -475,23 +475,23 @@ function Statuses({ slide }: { slide: Extract<SlideData, { kind: "statuses" }> }
   return (
     <div className="flex h-full flex-col gap-[1cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
-      <BlurFade delay={0.1} className="glass-card rounded-[1cqw] p-[1.3cqw]">
+      <Fade delay={0.1} className="glass-card rounded-[1cqw] p-[1.3cqw]">
         <p className="text-[1.4cqw] font-extrabold text-[var(--gold-200)]">۱. وظایف شورای مرکز رشد:</p>
         <Bullet text={slide.listen} delay={0.18} className="mt-[0.6cqw]" />
         <p className="mt-[0.7cqw] text-[1.3cqw] font-bold leading-[1.8] text-[var(--ivory)]/90">
           {slide.intro}
         </p>
-      </BlurFade>
+      </Fade>
       <div className="grid flex-1 grid-cols-2 gap-[0.9cqw] content-center">
         {slide.statuses.map((s, i) => (
-          <BlurFade
+          <Fade
             key={s}
             delay={0.22 + i * 0.08}
             className="glass-card-soft flex items-start gap-[0.75cqw] rounded-[0.9cqw] px-[1.15cqw] py-[0.8cqw]"
           >
             <span aria-hidden className="mt-[0.68cqw] block size-[0.5cqw] shrink-0 rotate-45 bg-[var(--gold-400)]" />
             <RichText text={s} className="text-[1.3cqw] font-semibold leading-[1.85] text-[var(--ivory)]/92" />
-          </BlurFade>
+          </Fade>
         ))}
       </div>
       <NoteStrip note={slide.clerk} delay={0.5} />
@@ -504,14 +504,14 @@ function Triple({ slide }: { slide: Extract<SlideData, { kind: "triple" }> }) {
   return (
     <div className="flex h-full flex-col gap-[1.1cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
-      <BlurFade delay={0.1} className="text-center">
+      <Fade delay={0.1} className="text-center">
         <span className="inline-block rounded-full border border-[rgba(212,175,55,0.45)] bg-[rgba(212,175,55,0.1)] px-[1.5cqw] py-[0.4cqw] text-[1.2cqw] font-bold text-[var(--gold-300)]">
           قرارداد استقرار (سه‌جانبه)
         </span>
-      </BlurFade>
+      </Fade>
       <div className="grid flex-1 grid-cols-3 gap-[1.2cqw] content-center">
         {slide.cols.map((c, i) => (
-          <BlurFade
+          <Fade
             key={c.t}
             delay={0.18 + i * 0.1}
             className="glass-card flex flex-col rounded-[1.1cqw] p-[1.3cqw]"
@@ -524,7 +524,7 @@ function Triple({ slide }: { slide: Extract<SlideData, { kind: "triple" }> }) {
                 <Bullet key={j} text={b} delay={0.28 + i * 0.1 + j * 0.06} dense />
               ))}
             </div>
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -538,7 +538,7 @@ function Outcomes({ slide }: { slide: Extract<SlideData, { kind: "outcomes" }> }
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
       <div className="grid grid-cols-2 gap-[1.2cqw]">
         {slide.blocks.map((b, i) => (
-          <BlurFade
+          <Fade
             key={b.t}
             delay={0.12 + i * 0.1}
             className="glass-card rounded-[1cqw] p-[1.25cqw]"
@@ -551,10 +551,10 @@ function Outcomes({ slide }: { slide: Extract<SlideData, { kind: "outcomes" }> }
                 <Bullet key={j} text={x} delay={0.2 + i * 0.1 + j * 0.06} dense />
               ))}
             </div>
-          </BlurFade>
+          </Fade>
         ))}
       </div>
-      <BlurFade delay={0.34} className="glass-card flex flex-1 flex-col justify-center gap-[0.8cqw] rounded-[1cqw] p-[1.2cqw]">
+      <Fade delay={0.34} className="glass-card flex flex-1 flex-col justify-center gap-[0.8cqw] rounded-[1cqw] p-[1.2cqw]">
         <p className="text-[1.25cqw] font-extrabold leading-[1.7] text-[var(--gold-200)]">
           {slide.outcomesIntro}
         </p>
@@ -563,7 +563,7 @@ function Outcomes({ slide }: { slide: Extract<SlideData, { kind: "outcomes" }> }
             <Bullet key={i} text={o} delay={0.42 + i * 0.06} dense />
           ))}
         </div>
-      </BlurFade>
+      </Fade>
     </div>
   );
 }
@@ -574,15 +574,15 @@ function Services({ slide }: { slide: Extract<SlideData, { kind: "services" }> }
     <div className="flex h-full flex-col gap-[1cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
       {slide.intro ? (
-        <BlurFade delay={0.1}>
+        <Fade delay={0.1}>
           <p className="glass-card-soft rounded-[0.8cqw] px-[1.1cqw] py-[0.55cqw] text-[1.15cqw] leading-[1.85] text-[var(--ivory)]/85">
             <RichText text={slide.intro} />
           </p>
-        </BlurFade>
+        </Fade>
       ) : null}
       <div className="flex flex-1 flex-col justify-center gap-[0.8cqw]">
         {slide.items.map((it, i) => (
-          <BlurFade key={it.n} delay={0.16 + i * 0.09}>
+          <Fade key={it.n} delay={0.16 + i * 0.09}>
             <MagicCard
               className="rounded-[1cqw]"
               gradientFrom="rgba(212,175,55,0.9)"
@@ -602,7 +602,7 @@ function Services({ slide }: { slide: Extract<SlideData, { kind: "services" }> }
                 </div>
               </div>
             </MagicCard>
-          </BlurFade>
+          </Fade>
         ))}
         {slide.notes ? (
           <div className="flex flex-col gap-[0.6cqw]">
@@ -622,13 +622,13 @@ function Redlines({ slide }: { slide: Extract<SlideData, { kind: "redlines" }> }
     <div className="flex h-full flex-col gap-[1cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} part={slide.part} />
       {slide.intro ? (
-        <BlurFade delay={0.1}>
+        <Fade delay={0.1}>
           <p className="text-[1.35cqw] font-semibold leading-[1.8] text-[var(--ink-muted)]">{slide.intro}</p>
-        </BlurFade>
+        </Fade>
       ) : null}
       <div className="flex flex-1 flex-col justify-center gap-[0.85cqw]">
         {slide.items.map((it, i) => (
-          <BlurFade
+          <Fade
             key={it.n}
             delay={0.16 + i * 0.1}
             className="glass-card-soft flex items-start gap-[0.95cqw] rounded-[1cqw] border-r-2 border-r-[#e05252] p-[1.2cqw]"
@@ -645,7 +645,7 @@ function Redlines({ slide }: { slide: Extract<SlideData, { kind: "redlines" }> }
                 className="mt-[0.3cqw] block text-[1.22cqw] leading-[1.95] text-[var(--ivory)]/88"
               />
             </div>
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -657,20 +657,20 @@ function Finance({ slide }: { slide: Extract<SlideData, { kind: "finance" }> }) 
   return (
     <div className="flex h-full flex-col gap-[0.9cqw] p-[3cqw]">
       <SlideHeader title={slide.title} page={slide.page} />
-      <BlurFade delay={0.1} className="glass-card rounded-[1cqw] p-[1.15cqw]">
+      <Fade delay={0.1} className="glass-card rounded-[1cqw] p-[1.15cqw]">
         <RichText text={slide.p1} className="text-[1.28cqw] leading-[1.95] text-[var(--ivory)]/90" />
-      </BlurFade>
-      <BlurFade delay={0.2} className="glass-card-soft flex flex-1 flex-col justify-center gap-[0.7cqw] rounded-[1cqw] p-[1.15cqw]">
+      </Fade>
+      <Fade delay={0.2} className="glass-card-soft flex flex-1 flex-col justify-center gap-[0.7cqw] rounded-[1cqw] p-[1.15cqw]">
         <p className="text-[1.3cqw] font-extrabold text-[var(--gold-200)]">{slide.sourcesIntro}</p>
         <div className="grid grid-cols-2 gap-x-[1.4cqw] gap-y-[0.55cqw]">
           {slide.sources.map((s, i) => (
             <Bullet key={i} text={s} delay={0.28 + i * 0.06} dense />
           ))}
         </div>
-      </BlurFade>
-      <BlurFade delay={0.4} className="glass-card rounded-[1cqw] border-r-2 border-r-[var(--gold-400)] p-[1.05cqw]">
+      </Fade>
+      <Fade delay={0.4} className="glass-card rounded-[1cqw] border-r-2 border-r-[var(--gold-400)] p-[1.05cqw]">
         <RichText text={slide.p3} className="text-[1.22cqw] leading-[1.9] text-[var(--ivory)]/90" />
-      </BlurFade>
+      </Fade>
     </div>
   );
 }
@@ -682,7 +682,7 @@ function Legal({ slide }: { slide: Extract<SlideData, { kind: "legal" }> }) {
       <SlideHeader title={slide.title} page={slide.page} />
       <div className="flex flex-1 flex-col justify-center gap-[0.9cqw]">
         {slide.blocks.map((b, i) => (
-          <BlurFade
+          <Fade
             key={b.t}
             delay={0.12 + i * 0.1}
             className="glass-card rounded-[1cqw] p-[1.2cqw]"
@@ -692,7 +692,7 @@ function Legal({ slide }: { slide: Extract<SlideData, { kind: "legal" }> }) {
               text={b.b}
               className="mt-[0.4cqw] block text-[1.2cqw] leading-[1.95] text-[var(--ivory)]/88"
             />
-          </BlurFade>
+          </Fade>
         ))}
       </div>
     </div>
@@ -704,31 +704,31 @@ function Protocols({ slide }: { slide: Extract<SlideData, { kind: "protocols" }>
   return (
     <div className="flex h-full flex-col gap-[0.9cqw] p-[2.8cqw]">
       <SlideHeader title={slide.title} page={slide.page} />
-      <BlurFade delay={0.08}>
+      <Fade delay={0.08}>
         <span className="glass-card inline-block rounded-full px-[1.4cqw] py-[0.4cqw]">
           <AnimatedShinyText className="text-[1.1cqw] font-bold text-[var(--gold-200)]">
             {slide.kicker}
           </AnimatedShinyText>
         </span>
-      </BlurFade>
-      <BlurFade delay={0.14}>
+      </Fade>
+      <Fade delay={0.14}>
         <p className="glass-card-soft rounded-[0.8cqw] px-[1.1cqw] py-[0.55cqw] text-[1.15cqw] leading-[1.85] text-[var(--ivory)]/88">
           <RichText text={slide.intro} />
         </p>
-      </BlurFade>
+      </Fade>
       <div className="grid flex-1 grid-cols-3 gap-[0.8cqw] content-center">
         {slide.items.map((it, i) => (
-          <BlurFade
+          <Fade
             key={i}
             delay={0.2 + i * 0.05}
             className="glass-card-soft flex items-start gap-[0.6cqw] rounded-[0.85cqw] p-[0.9cqw]"
           >
             <span aria-hidden className="mt-[0.6cqw] block size-[0.42cqw] shrink-0 rotate-45 bg-[var(--gold-400)]" />
             <RichText text={it} className="text-[1.02cqw] leading-[1.8] text-[var(--ivory)]/90" />
-          </BlurFade>
+          </Fade>
         ))}
       </div>
-      <BlurFade delay={0.5} className="flex justify-center">
+      <Fade delay={0.5} className="flex justify-center">
         <div className="relative rounded-full px-[1.8cqw] py-[0.6cqw]">
           <ShineBorder borderWidth={1.2} duration={6} shineColor={["#f1dc93", "#c9a227"]} className="rounded-full" />
           <div className="relative flex items-center gap-[0.7cqw] text-[1.2cqw] font-bold text-[var(--gold-300)]">
@@ -736,7 +736,7 @@ function Protocols({ slide }: { slide: Extract<SlideData, { kind: "protocols" }>
             {slide.deadline}
           </div>
         </div>
-      </BlurFade>
+      </Fade>
     </div>
   );
 }
@@ -747,27 +747,27 @@ function Closing() {
     <div className="relative flex h-full flex-col items-center justify-center overflow-hidden text-center">
       <Ripple mainCircleSize={300} mainCircleOpacity={0.2} numCircles={7} />
       <Meteors number={8} />
-      <BlurFade className="relative z-10">
+      <Fade className="relative z-10">
         <span className="glass-card inline-block rounded-full px-[1.5cqw] py-[0.45cqw]">
           <AnimatedShinyText className="text-[1.15cqw] font-bold text-[var(--gold-200)]">
             آیین‌نامه مرکز رشد واحدهای فناور علوم انسانی اسلامی
           </AnimatedShinyText>
         </span>
-      </BlurFade>
-      <BlurFade delay={0.14} className="relative z-10">
+      </Fade>
+      <Fade delay={0.14} className="relative z-10">
         <h2 className="mt-[1.3cqw] text-[4.2cqw] font-black leading-[1.4]">
           <AnimatedGradientText speed={1.2} colorFrom="#f1dc93" colorTo="#b8860b">
             با سپاس از توجه شما
           </AnimatedGradientText>
         </h2>
-      </BlurFade>
-      <BlurFade delay={0.26} className="relative z-10">
+      </Fade>
+      <Fade delay={0.26} className="relative z-10">
         <p className="mt-[0.9cqw] text-[1.5cqw] font-bold text-[var(--ivory)]/85">
           {deckMeta.dept} — {deckMeta.org}
         </p>
         <p className="mt-[0.35cqw] text-[1.1cqw] text-[var(--ink-muted)]">{deckMeta.date}</p>
-      </BlurFade>
-      <BlurFade
+      </Fade>
+      <Fade
         delay={0.4}
         className="absolute bottom-[2.6cqw] left-0 right-0 z-10 [mask-image:linear-gradient(90deg,transparent,white_12%,white_88%,transparent)]"
       >
@@ -784,7 +784,7 @@ function Closing() {
             )
           )}
         </Marquee>
-      </BlurFade>
+      </Fade>
     </div>
   );
 }

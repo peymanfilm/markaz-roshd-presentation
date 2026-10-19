@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import { ChevronLeft, ChevronRight, Maximize, Minimize, Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { deckMeta, slides } from "@/lib/deck-data";
@@ -149,19 +148,15 @@ export default function DeckViewer() {
             maxHeight: "100%",
           }}
         >
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={index}
-              custom={dir}
-              initial={{ opacity: 0, x: dir >= 0 ? -80 : 80, filter: "blur(8px)" }}
-              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, x: dir >= 0 ? 80 : -80, filter: "blur(8px)" }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="@container absolute inset-0 overflow-hidden rounded-lg border border-[rgba(212,175,55,0.2)] shadow-[0_34px_90px_-32px_rgba(0,0,0,0.85)]"
-            >
-              <SlideView slide={slides[index]} />
-            </motion.div>
-          </AnimatePresence>
+          {/* تغییر key باعث remount و پخش دوباره انیمیشن CSS ورود اسلاید می‌شود —
+              محتوا در SSR نمایان است و به اجرای JS وابسته نیست */}
+          <div
+            key={index}
+            className="deck-slide-frame @container absolute inset-0 overflow-hidden rounded-lg border border-[rgba(212,175,55,0.2)] shadow-[0_34px_90px_-32px_rgba(0,0,0,0.85)]"
+            style={{ "--deck-x": dir >= 0 ? "-80px" : "80px" } as React.CSSProperties}
+          >
+            <SlideView slide={slides[index]} />
+          </div>
         </div>
       </main>
 

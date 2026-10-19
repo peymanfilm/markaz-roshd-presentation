@@ -2,8 +2,8 @@
 
 import { ChevronLeft, ChevronRight, Maximize, Minimize, Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { deckMeta, slides } from "@/lib/deck-data";
-import { SlideView } from "./slides";
+import { deckMeta, slides } from "@/lib/deck";
+import { SlideView } from "./slide-view";
 
 const toFa = (n: number | string) => String(n).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
 const TOTAL = slides.length;
@@ -125,7 +125,7 @@ export default function DeckViewer() {
   return (
     <div className="deck-root dark relative flex h-dvh w-full flex-col overflow-hidden font-sans text-[var(--ivory)]">
       {/* نوار بالا */}
-      <div className="relative z-20 flex items-center justify-between px-4 pt-2.5 text-[11px] text-[var(--ink-muted)] sm:px-7 sm:text-xs">
+      <div className="deck-topbar relative z-20 flex items-center justify-between px-4 pt-2.5 text-[11px] text-[var(--ink-muted)] sm:px-7 sm:text-xs">
         <span className="font-semibold text-[var(--gold-300)]/80">
           {deckMeta.org} <span className="mx-1 text-[var(--gold-500)]">|</span> {deckMeta.dept}
         </span>
@@ -134,20 +134,13 @@ export default function DeckViewer() {
 
       {/* صحنه ارائه */}
       <main
-        className="relative z-10 flex flex-1 items-center justify-center overflow-hidden px-2.5 py-2 sm:px-6"
+        className="deck-stage-area relative z-10 overflow-hidden px-2.5 py-2 sm:px-6"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         aria-roledescription="carousel"
         aria-label="اسلایدهای ارائه"
       >
-        <div
-          className="relative"
-          style={{
-            aspectRatio: "16 / 9",
-            width: "min(100%, calc((100dvh - 108px) * 16 / 9))",
-            maxHeight: "100%",
-          }}
-        >
+        <div className="deck-stage">
           {/* تغییر key باعث remount و پخش دوباره انیمیشن CSS ورود اسلاید می‌شود —
               محتوا در SSR نمایان است و به اجرای JS وابسته نیست */}
           <div
@@ -159,6 +152,11 @@ export default function DeckViewer() {
           </div>
         </div>
       </main>
+
+      {/* راهنمای چرخش گوشی — فقط در حالت عمودی نمایش داده می‌شود */}
+      <p className="deck-rotate-hint relative z-20 px-4 pb-1.5 text-center text-[11px] leading-5 text-[var(--ink-muted)]/80">
+        برای نمایش تمام‌صفحه، گوشی را بچرخانید
+      </p>
 
       {/* نوار کنترل */}
       <footer className="relative z-20 mx-auto mb-2.5 flex w-[min(96%,880px)] items-center gap-2.5 rounded-2xl deck-chrome px-3 py-2 sm:gap-3.5 sm:px-4">

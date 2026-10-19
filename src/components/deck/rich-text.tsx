@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 
 function renderSegments(line: string, keyPrefix: string) {
-  const parts = line.split(/(<b>[\s\S]*?<\/b>)/g);
+  const parts = line.split(/(<b>[\s\S]*?<\/b>|<t>[\s\S]*?<\/t>)/g);
   return parts.map((p, i) => {
     if (p.startsWith("<b>")) {
       return (
@@ -12,12 +12,20 @@ function renderSegments(line: string, keyPrefix: string) {
         </strong>
       );
     }
+    if (p.startsWith("<t>")) {
+      return (
+        <strong key={`${keyPrefix}-h${i}`} className="font-semibold text-[#4DCEBF]">
+          {p.replace(/<\/?t>/g, "")}
+        </strong>
+      );
+    }
     return <Fragment key={`${keyPrefix}-t${i}`}>{p}</Fragment>;
   });
 }
 
 /**
- * متن سند را رندر می‌کند؛ عبارت‌های داخل <b>…</b> طلایی و توپر می‌شوند
+ * متن سند را رندر می‌کند؛ عبارت‌های داخل <b>…</b> طلایی و توپر می‌شوند،
+ * عبارت‌های داخل <t>…</t> فیروزه‌ای و نیمه‌توپر می‌شوند
  * و \n به خط جدید تبدیل می‌شود (متن بدون هیچ تغییری حفظ می‌شود).
  */
 export function RichText({ text, className }: { text: string; className?: string }) {

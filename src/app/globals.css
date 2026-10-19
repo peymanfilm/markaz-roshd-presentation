@@ -294,6 +294,56 @@
   }
 }
 
+/* ══════════ صحنهٔ ارائه — اندازه‌گذاری واکنش‌گرا ══════════
+   استایج همیشه دقیقاً ۱۶:۹ می‌ماند تا چیدمان اسلایدها (که با cqw مقیاس می‌شود)
+   بدون بریدگی و سرریز حفظ شود. اندازه‌گذاری با واحدهای کانتینر انجام می‌شود:
+   ۱) افقی: بزرگ‌ترین کادر ۱۶:۹ که در فضای صحنه جا می‌شود.
+   ۲) عمودی (موبایل): کل استایج ۹۰ درجه می‌چرخد؛ با چرخش فیزیکی گوشی،
+      همان کادر ۱۶:۹ تمام‌صفحه دیده می‌شود و نسبت/چیدمان دست‌نخورده می‌ماند. */
+
+.deck-stage-area {
+  position: relative;
+  container-type: size;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck-stage {
+  position: relative;
+  flex: 0 0 auto;
+  aspect-ratio: 16 / 9;
+  width: min(100cqw, calc(100cqh * 16 / 9));
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* راهنمای چرخش دستگاه — فقط در حالت عمودی موبایل نمایش داده می‌شود */
+.deck-rotate-hint {
+  display: none;
+}
+
+/* موبایل در حالت عمودی: چرخش ۹۰ درجه‌ای صحنه + راهنمای چرخش دستگاه */
+@media (orientation: portrait) and (max-width: 640px) {
+  .deck-stage {
+    width: min(calc(100cqw * 16 / 9), 100cqh);
+    transform: rotate(90deg);
+  }
+
+  .deck-rotate-hint {
+    display: block;
+  }
+}
+
+/* صفحه‌های کوتاه (موبایل افقی): حذف نوار بالایی برای فضای بیشتر اسلاید */
+@media (max-height: 520px) {
+  .deck-topbar {
+    display: none;
+  }
+}
+
 /* ورود خودِ اسلاید — با تغییر key توسط React دوباره اجرا می‌شود */
 .deck-slide-frame {
   animation: deck-slide-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -304,9 +354,335 @@
   animation: deck-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
+/* ══════════ پس‌زمینه اختصاصی اسلاید ۱ — «بسم الله» ══════════
+   شمسهٔ چرخان نور + حلقه‌های هم‌مرکز + آسمان ستاره‌دار + غبار نورانی.
+   همه‌چیز CSS خالص است؛ افکت‌ها فقط تزئینی‌اند و محتوا در SSR دیده می‌شود. */
+
+@keyframes deck-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes deck-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes deck-twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes deck-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(26px, -76px, 0); }
+}
+
+@keyframes deck-breathe {
+  0%, 100% { transform: scale(0.93); opacity: 0.5; }
+  50% { transform: scale(1.07); opacity: 0.92; }
+}
+
+@keyframes deck-ring-pulse {
+  0%, 100% { transform: scale(0.96); opacity: 0.45; }
+  50% { transform: scale(1.04); opacity: 0.85; }
+}
+
+/* چرخش رنگ تدریجی — لایه‌های گرم و خنک در آهنگ‌های متفاوت */
+@keyframes deck-hue-warm {
+  0%, 100% { filter: hue-rotate(-12deg); }
+  50% { filter: hue-rotate(12deg); }
+}
+
+@keyframes deck-hue-cool {
+  0%, 100% { filter: hue-rotate(-26deg); }
+  50% { filter: hue-rotate(26deg); }
+}
+
+/* رانش رنگی در متن — درخشش یاقوتی/فیروزه‌ای */
+@keyframes deck-title-sweep {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* دو مه رنگی که آرام جابه‌جا می‌شوند */
+@keyframes deck-aurora-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-8deg); opacity: 0.5; }
+  50% { transform: translate3d(7cqw, 4cqw, 0) rotate(6deg); opacity: 0.95; }
+}
+
+@keyframes deck-aurora-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(6deg); opacity: 0.45; }
+  50% { transform: translate3d(-6cqw, -5cqw, 0) rotate(-6deg); opacity: 0.9; }
+}
+
+/* پایه — گرادیان سورمه‌ای با هاله طلایی بالا */
+.deck-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 78% at 50% -8%, rgba(29, 63, 120, 0.5), transparent 58%),
+    radial-gradient(85% 58% at 10% 104%, rgba(20, 48, 95, 0.5), transparent 60%),
+    radial-gradient(85% 58% at 90% 104%, rgba(20, 48, 95, 0.42), transparent 60%),
+    linear-gradient(180deg, #04091a 0%, #071127 42%, #0a1730 76%, #04091a 100%);
+}
+
+/* آسمان ستاره‌دار — دو لایه با آهنگ متفاوت */
+.deck-bg-stars,
+.deck-bg-stars-2 {
+  position: absolute;
+  inset: -8%;
+  will-change: opacity;
+}
+
+.deck-bg-stars {
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 18%, rgba(245, 240, 225, 0.95), transparent 60%),
+    radial-gradient(1.2px 1.2px at 28% 62%, rgba(230, 197, 92, 0.8), transparent 60%),
+    radial-gradient(1.8px 1.8px at 41% 12%, rgba(245, 240, 225, 0.9), transparent 60%),
+    radial-gradient(1.1px 1.1px at 57% 44%, rgba(245, 240, 225, 0.75), transparent 60%),
+    radial-gradient(1.5px 1.5px at 68% 78%, rgba(230, 197, 92, 0.7), transparent 60%),
+    radial-gradient(1.3px 1.3px at 81% 26%, rgba(245, 240, 225, 0.85), transparent 60%),
+    radial-gradient(1.1px 1.1px at 91% 58%, rgba(245, 240, 225, 0.7), transparent 60%),
+    radial-gradient(1.4px 1.4px at 8% 86%, rgba(230, 197, 92, 0.65), transparent 60%),
+    radial-gradient(1.2px 1.2px at 74% 8%, rgba(245, 240, 225, 0.8), transparent 60%);
+  animation: deck-twinkle 7s ease-in-out infinite;
+}
+
+.deck-bg-stars-2 {
+  background-image:
+    radial-gradient(1.4px 1.4px at 22% 34%, rgba(77, 206, 191, 0.75), transparent 60%),
+    radial-gradient(1.1px 1.1px at 48% 74%, rgba(245, 240, 225, 0.7), transparent 60%),
+    radial-gradient(1.6px 1.6px at 63% 22%, rgba(241, 220, 147, 0.8), transparent 60%),
+    radial-gradient(1.2px 1.2px at 86% 44%, rgba(245, 240, 225, 0.75), transparent 60%),
+    radial-gradient(1.5px 1.5px at 34% 8%, rgba(245, 240, 225, 0.7), transparent 60%);
+  animation: deck-twinkle 11s ease-in-out infinite reverse;
+}
+
+/* غبار نورانی — رانش آرام در دو جهت */
+.deck-bg-dust,
+.deck-bg-dust-2 {
+  position: absolute;
+  inset: -20%;
+  will-change: transform;
+}
+
+.deck-bg-dust {
+  background-image:
+    radial-gradient(2px 2px at 18% 82%, rgba(241, 220, 147, 0.5), transparent 60%),
+    radial-gradient(1.6px 1.6px at 36% 46%, rgba(212, 175, 55, 0.4), transparent 60%),
+    radial-gradient(2.2px 2.2px at 58% 88%, rgba(241, 220, 147, 0.35), transparent 60%),
+    radial-gradient(1.8px 1.8px at 76% 38%, rgba(212, 175, 55, 0.45), transparent 60%),
+    radial-gradient(2px 2px at 88% 74%, rgba(241, 220, 147, 0.4), transparent 60%);
+  animation: deck-drift 26s ease-in-out infinite alternate;
+}
+
+.deck-bg-dust-2 {
+  background-image:
+    radial-gradient(1.6px 1.6px at 26% 58%, rgba(212, 175, 55, 0.35), transparent 60%),
+    radial-gradient(2px 2px at 52% 18%, rgba(241, 220, 147, 0.35), transparent 60%),
+    radial-gradient(1.4px 1.4px at 70% 68%, rgba(212, 175, 55, 0.3), transparent 60%),
+    radial-gradient(1.8px 1.8px at 94% 30%, rgba(241, 220, 147, 0.3), transparent 60%);
+  animation: deck-drift 34s ease-in-out infinite alternate-reverse;
+}
+
+/* مه‌های رنگی — فیروزه‌ای و آبی، برای چندرنگ شدن آسمان */
+.deck-bg-aurora-1,
+.deck-bg-aurora-2 {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  filter: blur(34px);
+}
+
+.deck-bg-aurora-1 {
+  width: 120cqw;
+  height: 44cqw;
+  left: -22cqw;
+  top: 6%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(77, 206, 191, 0.28), transparent 70%);
+  animation: deck-aurora-1 34s ease-in-out infinite;
+}
+
+.deck-bg-aurora-2 {
+  width: 110cqw;
+  height: 40cqw;
+  right: -20cqw;
+  top: 54%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(64, 118, 224, 0.32), transparent 70%);
+  animation: deck-aurora-2 46s ease-in-out infinite;
+}
+
+/* پرتوهای آسمانی از بالا */
+.deck-bg-rays {
+  position: absolute;
+  left: 50%;
+  top: -76cqw;
+  width: 76cqw;
+  height: 76cqw;
+  margin-left: -38cqw;
+  transform-origin: 50% 100%;
+  will-change: transform;
+  background: repeating-conic-gradient(from 0deg at 50% 100%,
+    rgba(241, 220, 147, 0.13) 0deg 1.8deg,
+    transparent 1.8deg 12deg);
+  -webkit-mask-image: radial-gradient(circle 40cqw at 50% 100%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(circle 40cqw at 50% 100%, #000 0%, transparent 100%);
+  animation: deck-spin-reverse 240s linear infinite, deck-hue-warm 26s ease-in-out infinite;
+}
+
+/* شمسهٔ هشت‌پر — دو شبکهٔ متقاطع */
+.deck-bg-rosette,
+.deck-bg-rosette-b {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.deck-bg-rosette {
+  width: 54cqw;
+  height: 54cqw;
+  margin: -27cqw 0 0 -27cqw;
+  background:
+    repeating-conic-gradient(from 0deg,
+      rgba(212, 175, 55, 0.5) 0deg 4deg,
+      transparent 4deg 22.5deg),
+    repeating-conic-gradient(from 11.25deg,
+      rgba(241, 220, 147, 0.28) 0deg 1.2deg,
+      transparent 1.2deg 11.25deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 4cqw, #000 10cqw, #000 24cqw, transparent 30cqw);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 4cqw, #000 10cqw, #000 24cqw, transparent 30cqw);
+  animation: deck-spin-slow 170s linear infinite, deck-hue-warm 24s ease-in-out infinite;
+}
+
+.deck-bg-rosette-b {
+  width: 42cqw;
+  height: 42cqw;
+  margin: -21cqw 0 0 -21cqw;
+  background: repeating-conic-gradient(from 5.6deg,
+    rgba(77, 206, 191, 0.3) 0deg 1.8deg,
+    transparent 1.8deg 45deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 5cqw, #000 10cqw, #000 16cqw, transparent 19cqw);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 5cqw, #000 10cqw, #000 16cqw, transparent 19cqw);
+  animation: deck-spin-reverse 230s linear infinite, deck-hue-cool 34s ease-in-out infinite;
+}
+
+/* حلقه‌های هم‌مرکز */
+.deck-bg-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50cqw;
+  height: 50cqw;
+  margin: -25cqw 0 0 -25cqw;
+  border-radius: 50%;
+  will-change: transform;
+  background: repeating-radial-gradient(circle at 50% 50%,
+    rgba(212, 175, 55, 0.42) 0 1.5px,
+    transparent 1.5px 3.4cqw);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 13cqw, transparent 22cqw);
+  mask-image: radial-gradient(circle at 50% 50%, #000 13cqw, transparent 22cqw);
+  animation: deck-ring-pulse 14s ease-in-out infinite, deck-hue-warm 30s ease-in-out infinite;
+}
+
+/* حلقهٔ مداری خط‌چین */
+.deck-bg-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 39cqw;
+  height: 39cqw;
+  margin: -19.5cqw 0 0 -19.5cqw;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(212, 175, 55, 0.6);
+  will-change: transform;
+  animation: deck-spin-slow 95s linear infinite, deck-hue-cool 40s ease-in-out infinite;
+}
+
+/* هالهٔ تنفسی پشت متن */
+.deck-bg-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48cqw;
+  height: 48cqw;
+  margin: -24cqw 0 0 -24cqw;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(212, 175, 55, 0.3) 0%, rgba(122, 205, 224, 0.13) 46%, transparent 64%);
+  animation: deck-breathe 10s ease-in-out infinite, deck-hue-warm 22s ease-in-out infinite;
+}
+
+/* هالهٔ حلقوی پشت شمسه — شکل را خوانا می‌کند */
+.deck-bg-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 66cqw;
+  height: 66cqw;
+  margin: -33cqw 0 0 -33cqw;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  background: radial-gradient(circle at 50% 50%,
+    transparent 24%, rgba(212, 175, 55, 0.12) 38%,
+    rgba(122, 205, 224, 0.07) 52%, transparent 66%);
+  animation: deck-breathe 17s ease-in-out infinite reverse, deck-hue-cool 38s ease-in-out infinite;
+}
+
+/* متن یکتا: درخشش سردِ یاقوتی-فیروزه‌ای — عمداً متفاوت از طلای پس‌زمینه */
+.deck-title-aurora {
+  background: linear-gradient(100deg, #ffffff 0%, #dce8ff 26%, #9fe4dc 54%, #ffffff 78%, #cfe6ff 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 26px rgba(159, 228, 220, 0.32));
+  animation: deck-title-sweep 9s ease-in-out infinite;
+}
+
+/* پردهٔ تیره پشت متن — خوانایی را حفظ می‌کند */
+.deck-bg-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 32% at 50% 50%,
+    rgba(4, 9, 26, 0.58), rgba(4, 9, 26, 0.18) 56%, transparent 78%);
+}
+
+/* وینیت */
+.deck-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 82% 82% at 50% 50%,
+    transparent 44%, rgba(4, 9, 26, 0.6) 100%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .deck-slide-frame,
   .deck-fade {
+    animation: none;
+  }
+
+  .deck-bg-stars,
+  .deck-bg-stars-2,
+  .deck-bg-dust,
+  .deck-bg-dust-2,
+  .deck-bg-aurora-1,
+  .deck-bg-aurora-2,
+  .deck-bg-rays,
+  .deck-bg-rosette,
+  .deck-bg-rosette-b,
+  .deck-bg-rings,
+  .deck-bg-orbit,
+  .deck-bg-halo,
+  .deck-bg-aura {
+    animation: none;
+  }
+
+  .deck-title-aurora {
     animation: none;
   }
 }

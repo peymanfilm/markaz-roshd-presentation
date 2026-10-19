@@ -36,3 +36,26 @@ Stage Summary:
 - خروجی نهایی: ارائه HTML کاملاً RTL فارسی با تم سورمه‌ای تیره (#04091a→#0a1730) و طلایی (#c9a227/#d4af37)، ۳۰ اسلاید، انیمیشن‌های ورودی BlurFade پله‌ای و افکت‌های Magic UI، فونت Vazirmatn، مقیاس‌پذیر با واحد cqw (بدون سرریز متن در هیچ اندازه صفحه).
 - MCP رسمی Magic UI در /home/z/my-project/.mcp.json ثبت شد (magicuidesign-mcp via npx @magicuidesign/mcp@latest).
 - متن هیچ اسلایدی دستکاری نشده؛ فقط ساختاردهی بصری انجام شده است.
+---
+
+---
+Task ID: 3
+Agent: main (Z.ai Code)
+Task: اجرای نهایی پروژه و تأیید مرورگری پس از درخواست کاربر («اجرا کن تا ببینم پروژه رو»)
+
+Work Log:
+- بررسی وضعیت: سرور next dev روی پورت ۳۰۰۰ در حال اجرا (bun run dev از قبل فعال)، بدون نیاز به راه‌اندازی مجدد.
+- فایل‌های ارائه موجود و سالم: src/lib/deck-data.ts (۳۰ اسلاید)، src/components/deck/{deck-viewer,slides,parts,rich-text}.tsx، ۱۵ کامپوننت Magic UI در src/components/ui.
+- dev.log: خطای قبلی Module not found رفع شده بود؛ آخرین لاگ‌ها «Compiled + GET / 200» — سرور سالم.
+- تأیید مرورگری مجدد با agent-browser:
+  * اسلاید ۱ (جلد): AnimatedGridPattern + Meteors + تایپوگرافی طلایی/سفید RTL ✓
+  * ناوبری کیبورد ArrowLeft (بعدی در RTL): اسلاید ۲ فهرست مطالب، اسلاید ۳ ماده ۱ ✓
+  * هش‌ناوبری #14 (گردش‌کار ۴ ستونه با فلش RTL)، #26 (ماده ۹)، #30 (پایانی با Ripple + Marquee) ✓
+  * موبایل 390px: مقیاس‌پذیری صحیح، کنترل‌ها تطبیقی ✓
+  * کنسول: بدون خطا (فقط info React DevTools + HMR)؛ page errors خالی ✓
+  * صحت متن: «گردش‌کار اجرایی و شرح وظایف ارکان» عین سند بدون حرکت‌گذاری ✓
+- viewport به 1280x720 برگردانده شد و مرورگر بسته شد.
+
+Stage Summary:
+- پروژه آماده ارائه است: ارائه HTML ۳۰ اسلایدی RTL فارسی، تم سورمه‌ای تیره + طلایی، انیمیشن‌های Magic UI (BlurFade، GridPattern، Meteors، Ripple، BorderBeam، MagicCard و…)، ناوبری کیبورد/لمسی/هش، پخش خودکار (کلید P)، تمام‌صفحه (کلید F).
+- کاربر می‌تواند از پنل Preview (دکمه Open in New Tab) ارائه را مشاهده کند.

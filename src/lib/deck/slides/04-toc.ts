@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/** ۰۵ — فهرست مطالب */
+/** ۰۴ — فهرست مطالب */
 const slide: SlideOf<"toc"> = {
   kind: "toc",
   items: [

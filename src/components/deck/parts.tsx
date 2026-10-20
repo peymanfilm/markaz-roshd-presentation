@@ -172,7 +172,7 @@ export function DefCard({
         <p className="text-[1.45cqw] font-extrabold leading-[1.6] text-[var(--gold-200)]">{term}</p>
         <RichText
           text={body}
-          className="mt-[0.3cqw] block text-[1.28cqw] leading-[1.95] text-[var(--ivory)]/88"
+          className="mt-[0.3cqw] block text-justify text-[1.28cqw] leading-[1.95] text-[var(--ivory)]/88"
         />
       </div>
     </Fade>

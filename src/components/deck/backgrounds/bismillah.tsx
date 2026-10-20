@@ -14,19 +14,22 @@
 export function BismillahBackdrop() {
   return (
     <div className="deck-bg" aria-hidden="true">
-      <div className="deck-bg-stars" />
-      <div className="deck-bg-stars-2" />
-      <div className="deck-bg-dust" />
-      <div className="deck-bg-dust-2" />
-      <div className="deck-bg-aurora-1" />
-      <div className="deck-bg-aurora-2" />
-      <div className="deck-bg-rays" />
-      <div className="deck-bg-rosette" />
-      <div className="deck-bg-rosette-b" />
-      <div className="deck-bg-rings" />
-      <div className="deck-bg-orbit" />
-      <div className="deck-bg-aura" />
-      <div className="deck-bg-halo" />
+      {/* لایه‌های متحرک — با یک کلاس، یک‌جا کم‌رنگ می‌شوند */}
+      <div className="deck-bg-anim">
+        <div className="deck-bg-stars" />
+        <div className="deck-bg-stars-2" />
+        <div className="deck-bg-dust" />
+        <div className="deck-bg-dust-2" />
+        <div className="deck-bg-aurora-1" />
+        <div className="deck-bg-aurora-2" />
+        <div className="deck-bg-rays" />
+        <div className="deck-bg-rosette" />
+        <div className="deck-bg-rosette-b" />
+        <div className="deck-bg-rings" />
+        <div className="deck-bg-orbit" />
+        <div className="deck-bg-aura" />
+        <div className="deck-bg-halo" />
+      </div>
       <div className="deck-bg-scrim" />
       <div className="deck-bg-vignette" />
     </div>

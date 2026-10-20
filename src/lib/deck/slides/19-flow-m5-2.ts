@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۵: گردش‌کار، بخش ۲ (داوری) */
+/** ۱۹ — ماده ۵: گردش‌کار، بخش ۲ (داوری) */
 const slide: SlideOf<"flow"> = {
   kind: "flow",
   title: "ماده ۵: گردش‌کار اجرایی و شرح وظایف ارکان",

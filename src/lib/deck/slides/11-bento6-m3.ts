@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۳: قلمروهای شش‌گانه */
+/** ۱۱ — ماده ۳: قلمروهای شش‌گانه */
 const slide: SlideOf<"bento6"> = {
   kind: "bento6",
   title: "ماده ۳: قلمروهای دانشی اولویت‌دار",

@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — سرصفحه فصل چهارم */
+/** ۲۳ — سرصفحه فصل چهارم */
 const slide: SlideOf<"section"> = {
   kind: "section",
   kicker: "فصل چهارم",

@@ -60,3 +60,8 @@ download/
 .zscripts/
 .mcp.json
 agent-ctx/
+
+# offline/kiosk local build artifacts (not for GitHub)
+/dist/
+/runtime/
+markaz-roshd-offline.zip

@@ -44,6 +44,7 @@ export type SlideData =
       notes?: Note[];
     }
   | { kind: "numbered"; title: string; page: string; sub?: string; items: { t: string }[] }
+  | { kind: "alist"; title: string; page: string; sub?: string; items: ({ t: string } | string)[] }
   | { kind: "checklist"; title: string; page: string; sub?: string; items: string[] }
   | { kind: "rules"; title: string; page: string; sub?: string; items: string[]; chips: Chip[] }
   | {
@@ -102,7 +103,7 @@ export type SlideData =
     }
   | { kind: "legal"; title: string; page: string; blocks: { t: string; b: string }[] }
   | { kind: "protocols"; title: string; page: string; kicker: string; intro: string; items: string[]; deadline: string }
-  | { kind: "closing" };
+  | { kind: "closing"; arabic: { t: string; tone: "gold" | "teal" | "cream" | "lilac" }[]; meaning: string; leader: string; thanks: string; credit: { org: string; term: string } };
 
 /** استخراج نوع دقیق یک اسلاید بر اساس kind آن */
 export type SlideOf<K extends SlideData["kind"]> = Extract<SlideData, { kind: K }>;

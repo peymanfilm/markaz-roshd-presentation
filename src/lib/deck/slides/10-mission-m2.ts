@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۲: مأموریت و اهداف بنیادین */
+/** ۱۰ — ماده ۲: مأموریت و اهداف بنیادین */
 const slide: SlideOf<"mission"> = {
   kind: "mission",
   title: "ماده ۲: مأموریت و اهداف بنیادین",

@@ -3,10 +3,12 @@
   "version": "0.2.1",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000 2>&1 | tee dev.log",
-    "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
-    "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
+    "dev": "next dev -p 3000",
+    "build": "next build && node scripts/copy-standalone-assets.mjs",
+    "start": "node scripts/start-standalone.mjs",
     "lint": "eslint .",
+    "export:standalone": "node scripts/export-standalone.mjs --url http://localhost:3000 --out dist/presentation.html",
+    "release": "node scripts/build-release.mjs",
     "db:push": "prisma db push --accept-data-loss",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -82,6 +84,7 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
+    "@magicuidesign/cli": "^1.0.3",
     "@tailwindcss/postcss": "^4",
     "@types/react": "^19",
     "@types/react-dom": "^19",

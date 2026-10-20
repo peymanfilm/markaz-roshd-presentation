@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — بیانات رهبری */
+/** ۰۲ — بیانات رهبری */
 const slide: SlideOf<"leadership"> = {
   kind: "leadership",
   name: "رهبر شهید حضرت آیت‌الله العظمی امام خامنه‌ای",

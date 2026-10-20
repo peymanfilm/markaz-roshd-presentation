@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۶: سبد خدمات حمایتی، خدمات ۴ تا ۶ + تبصره‌ها */
+/** ۲۵ — ماده ۶: سبد خدمات حمایتی، خدمات ۴ تا ۶ + تبصره‌ها */
 const slide: SlideOf<"services"> = {
   kind: "services",
   title: "ماده ۶: سبد خدمات حمایتی",

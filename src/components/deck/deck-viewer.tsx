@@ -124,14 +124,6 @@ export default function DeckViewer() {
 
   return (
     <div className="deck-root dark relative flex h-dvh w-full flex-col overflow-hidden font-sans text-[var(--ivory)]">
-      {/* نوار بالا */}
-      <div className="deck-topbar relative z-20 flex items-center justify-between px-4 pt-2.5 text-[11px] text-[var(--ink-muted)] sm:px-7 sm:text-xs">
-        <span className="font-semibold text-[var(--gold-300)]/80">
-          {deckMeta.org} <span className="mx-1 text-[var(--gold-500)]">|</span> {deckMeta.dept}
-        </span>
-        <span className="hidden sm:inline">{deckMeta.title}</span>
-      </div>
-
       {/* صحنه ارائه */}
       <main
         className="deck-stage-area relative z-10 overflow-hidden px-2.5 py-2 sm:px-6"
@@ -140,14 +132,15 @@ export default function DeckViewer() {
         aria-roledescription="carousel"
         aria-label="اسلایدهای ارائه"
       >
-        <div className="deck-stage">
-          {/* تغییر key باعث remount و پخش دوباره انیمیشن CSS ورود اسلاید می‌شود —
-              محتوا در SSR نمایان است و به اجرای JS وابسته نیست */}
-          <div
-            key={index}
-            className="deck-slide-frame @container absolute inset-0 overflow-hidden rounded-lg border border-[rgba(212,175,55,0.2)] shadow-[0_34px_90px_-32px_rgba(0,0,0,0.85)]"
-            style={{ "--deck-x": dir >= 0 ? "-80px" : "80px" } as React.CSSProperties}
-          >
+          <div className="deck-stage">
+            {/* تغییر key باعث remount و پخش دوباره انیمیشن CSS ورود اسلاید می‌شود —
+                محتوا در SSR نمایان است و به اجرای JS وابسته نیست */}
+            <div
+              key={index}
+              data-slide-frame={index + 1}
+              className="deck-slide-frame @container absolute inset-0 overflow-hidden rounded-lg border border-[rgba(212,175,55,0.2)] shadow-[0_34px_90px_-32px_rgba(0,0,0,0.85)]"
+              style={{ "--deck-x": dir >= 0 ? "-80px" : "80px" } as React.CSSProperties}
+            >
             <SlideView slide={slides[index]} />
           </div>
         </div>
@@ -163,6 +156,7 @@ export default function DeckViewer() {
         <div className="flex items-center gap-1.5">
           <button
             type="button"
+            data-action="prev"
             onClick={() => go(-1)}
             disabled={index === 0}
             aria-label="اسلاید قبلی"
@@ -172,6 +166,7 @@ export default function DeckViewer() {
           </button>
           <button
             type="button"
+            data-action="next"
             onClick={() => go(1)}
             disabled={index === TOTAL - 1}
             aria-label="اسلاید بعدی"
@@ -181,7 +176,10 @@ export default function DeckViewer() {
           </button>
         </div>
 
-        <span className="shrink-0 rounded-full bg-[rgba(212,175,55,0.12)] px-2.5 py-1 text-xs font-bold tabular-nums text-[var(--gold-200)]">
+        <span
+          data-role="counter"
+          className="shrink-0 rounded-full bg-[rgba(212,175,55,0.12)] px-2.5 py-1 text-xs font-bold tabular-nums text-[var(--gold-200)]"
+        >
           {toFa(index + 1)} / {toFa(TOTAL)}
         </span>
 
@@ -194,6 +192,7 @@ export default function DeckViewer() {
           aria-valuenow={index + 1}
         >
           <div
+            data-role="progress"
             className="h-full rounded-full bg-[linear-gradient(90deg,var(--gold-600),var(--gold-300))] transition-all duration-500"
             style={{ width: `${((index + 1) / TOTAL) * 100}%` }}
           />
@@ -207,22 +206,37 @@ export default function DeckViewer() {
         <div className="flex items-center gap-1.5">
           <button
             type="button"
+            data-action="play"
             onClick={() => setPlaying((p) => !p)}
-            aria-label={playing ? "توقف پخش خودکار" : "پخش خودکار"}
+            aria-label="پخش خودکار"
             className="flex size-8 items-center justify-center rounded-full border border-[rgba(212,175,55,0.3)] text-[var(--gold-300)] transition hover:bg-[rgba(212,175,55,0.15)]"
           >
-            {playing ? <Pause className="size-4" /> : <Play className="size-4" />}
+            <span data-role="icon-play" className={playing ? "hidden" : "block"}>
+              <Play className="size-4" />
+            </span>
+            <span data-role="icon-pause" className={playing ? "block" : "hidden"}>
+              <Pause className="size-4" />
+            </span>
           </button>
           <button
             type="button"
+            data-action="fullscreen"
             onClick={toggleFullscreen}
-            aria-label={isFs ? "خروج از تمام‌صفحه" : "تمام‌صفحه"}
+            aria-label="تمام‌صفحه"
             className="flex size-8 items-center justify-center rounded-full border border-[rgba(212,175,55,0.3)] text-[var(--gold-300)] transition hover:bg-[rgba(212,175,55,0.15)]"
           >
             {isFs ? <Minimize className="size-4" /> : <Maximize className="size-4" />}
           </button>
         </div>
       </footer>
+
+      {/* نوار پایین — شناسنامهٔ ارائه */}
+      <div className="deck-brandbar relative z-20 flex items-center justify-between px-4 pb-2.5 text-[11px] text-[var(--ink-muted)] sm:px-7 sm:text-xs">
+        <span className="font-semibold text-[var(--gold-300)]/80">
+          {deckMeta.org} <span className="mx-1 text-[var(--gold-500)]">|</span> {deckMeta.dept}
+        </span>
+        <span className="hidden sm:inline">{deckMeta.title}</span>
+      </div>
     </div>
   );
 }

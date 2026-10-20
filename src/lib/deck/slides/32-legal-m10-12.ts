@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — تبصره ماده ۱۰ + ماده ۱۱ + ماده ۱۲ */
+/** ۳۲ — تبصره ماده ۱۰ + ماده ۱۱ + ماده ۱۲ */
 const slide: SlideOf<"legal"> = {
   kind: "legal",
   title: "تبصره حقوقی، موارد سکوت و پیوند با پارک‌ها",

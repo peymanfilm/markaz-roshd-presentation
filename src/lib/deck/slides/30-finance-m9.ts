@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۹: منابع مالی و انضباط محاسباتی */
+/** ۳۰ — ماده ۹: منابع مالی و انضباط محاسباتی */
 const slide: SlideOf<"finance"> = {
   kind: "finance",
   title: "ماده ۹: منابع مالی و انضباط محاسباتی",

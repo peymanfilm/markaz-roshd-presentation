@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۷: خطوط قرمز ۴ و ۵ */
+/** ۲۷ — ماده ۷: خطوط قرمز ۴ و ۵ */
 const slide: SlideOf<"redlines"> = {
   kind: "redlines",
   title: "ماده ۷: خطوط قرمز، الزامات حقوقی و تعارض منافع",

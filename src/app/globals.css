@@ -92,9 +92,10 @@
     transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));}}
   @keyframes marquee {
   from {
-    transform: translateX(0);}
+    transform: translateX(calc(-100% - var(--gap)));}
   to {
-    transform: translateX(calc(-100% - var(--gap)));}}
+    transform: translateX(calc(100% + var(--gap)));}
+  }
   @keyframes marquee-vertical {
   from {
     transform: translateY(0);}
@@ -244,6 +245,11 @@
   color: transparent;
 }
 
+/* فونت نسخ عربی — برای آیهٔ پایانی */
+.font-arabic {
+  font-family: var(--font-amiri), "Traditional Arabic", "Noto Naskh Arabic", serif;
+}
+
 .hairline {
   background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.75), transparent);
 }
@@ -337,9 +343,9 @@
   }
 }
 
-/* صفحه‌های کوتاه (موبایل افقی): حذف نوار بالایی برای فضای بیشتر اسلاید */
+/* صفحه‌های کوتاه (موبایل افقی): حذف نوار شناسنامه برای فضای بیشتر اسلاید */
 @media (max-height: 520px) {
-  .deck-topbar {
+  .deck-brandbar {
     display: none;
   }
 }
@@ -426,6 +432,15 @@
     radial-gradient(85% 58% at 10% 104%, rgba(20, 48, 95, 0.5), transparent 60%),
     radial-gradient(85% 58% at 90% 104%, rgba(20, 48, 95, 0.42), transparent 60%),
     linear-gradient(180deg, #04091a 0%, #071127 42%, #0a1730 76%, #04091a 100%);
+}
+
+/* لایه‌های متحرک — عمداً بسیار کم‌رنگ تا متن جلو بیاید و آسمان فقط
+   یک بافت ملایم باشد؛ با کم‌کردن همین یک opacity، همهٔ لایه‌ها
+   (ستاره، غبار، مه، پرتو، شمسه، حلقه‌ها، هاله) با هم کم‌نور می‌شوند. */
+.deck-bg-anim {
+  position: absolute;
+  inset: 0;
+  opacity: 0.34;
 }
 
 /* آسمان ستاره‌دار — دو لایه با آهنگ متفاوت */
@@ -660,6 +675,130 @@
     transparent 44%, rgba(4, 9, 26, 0.6) 100%);
 }
 
+/* ══════════ پس‌زمینه «نقشهٔ نقطه‌ای» — اسلایدهای آغاز فصل ══════════
+   نقشه‌ای انتزاعی از نقطه‌ها: شبکهٔ نقطه‌ای ریز، سه خوشهٔ قاره‌مانند،
+   مسیرهای متحرک و گره‌های نورانی. همه با CSS خالص و بدون وابستگی به JS. */
+
+.deck-map {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.deck-map-grid,
+.deck-map-land {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+}
+
+/* شبکهٔ نقطه‌ای ریز — بافت نقشه */
+.deck-map-grid {
+  background-image: radial-gradient(circle, rgba(212, 175, 55, 0.85) 1.3px, transparent 1.7px);
+  background-size: 1.35cqw 1.35cqw;
+  opacity: 0.5;
+}
+
+/* شبکهٔ درشت‌تر و فیروزه‌ای با رانش آرام */
+.deck-map-grid-2 {
+  position: absolute;
+  inset: -8%;
+  background-image: radial-gradient(circle, rgba(111, 214, 204, 0.7) 1.6px, transparent 2.1px);
+  background-size: 3cqw 3cqw;
+  opacity: 0.34;
+  will-change: transform;
+  -webkit-mask-image: radial-gradient(55% 45% at 24% 28%, #000 8%, transparent 76%);
+  mask-image: radial-gradient(55% 45% at 24% 28%, #000 8%, transparent 76%);
+  animation: deck-map-drift 70s linear infinite;
+}
+
+/* خوشه‌های قاره‌مانند */
+.deck-map-land {
+  background-image: radial-gradient(circle, rgba(241, 220, 147, 0.95) 1.15px, transparent 1.5px);
+  background-size: 2cqw 2cqw;
+  opacity: 0.5;
+}
+
+.deck-map-land-a {
+  -webkit-mask-image: radial-gradient(ellipse 26% 21% at 22% 62%, #000 12%, transparent 74%);
+  mask-image: radial-gradient(ellipse 26% 21% at 22% 62%, #000 12%, transparent 74%);
+}
+
+.deck-map-land-b {
+  background-size: 1.7cqw 1.7cqw;
+  -webkit-mask-image: radial-gradient(ellipse 21% 17% at 74% 34%, #000 10%, transparent 72%);
+  mask-image: radial-gradient(ellipse 21% 17% at 74% 34%, #000 10%, transparent 72%);
+}
+
+.deck-map-land-c {
+  background-size: 2.4cqw 2.4cqw;
+  opacity: 0.2;
+  -webkit-mask-image: radial-gradient(ellipse 18% 14% at 52% 78%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse 18% 14% at 52% 78%, #000 10%, transparent 70%);
+}
+
+/* گره‌های نورانی */
+.deck-map-node {
+  position: absolute;
+  width: 0.7cqw;
+  height: 0.7cqw;
+  margin: -0.35cqw 0 0 -0.35cqw;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(241, 220, 147, 0.95),
+    rgba(212, 175, 55, 0.28) 58%,
+    transparent 76%
+  );
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.5);
+  animation: deck-map-node 6s ease-in-out infinite;
+}
+
+.deck-map-node:nth-of-type(even) {
+  animation-delay: -3s;
+}
+
+/* پرده و وینیت */
+.deck-map-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 42% 36% at 50% 50%,
+    rgba(4, 9, 26, 0.55), rgba(4, 9, 26, 0.15) 58%, transparent 80%);
+}
+
+.deck-map-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 84% 84% at 50% 50%,
+    transparent 46%, rgba(4, 9, 26, 0.62) 100%);
+}
+
+@keyframes deck-map-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-3.2cqw, -3.2cqw, 0); }
+}
+
+@keyframes deck-map-node {
+  0%, 100% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ══════════ نوار متحرک بی‌پایان (زیرنویس اسلاید پایانی) ══════════
+   چیدمان ریشه راست‌به‌چپ است: نخستین کپی در لبهٔ راست می‌نشیند و
+   کپی‌های بعدی به سمت چپ صف می‌شوند. هر کپی دقیقاً به اندازهٔ یک
+   «دوره» (عرض خودش + فاصله) به سمت راست می‌لغزد، پس متن از چپ وارد
+   و از راست خارج می‌شود و چیدمان پایان دوره دقیقاً با آغاز آن یکی
+   است؛ بنابراین متن بی‌وقفه دیده می‌شود، نه اینکه ناگهان قطع شود. */
+@keyframes deck-marquee-loop {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(100% + var(--gap))); }
+}
+
+.deck-marquee > div {
+  animation-name: deck-marquee-loop;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .deck-slide-frame,
   .deck-fade {
@@ -678,7 +817,13 @@
   .deck-bg-rings,
   .deck-bg-orbit,
   .deck-bg-halo,
-  .deck-bg-aura {
+  .deck-bg-aura,
+  .deck-map-grid-2,
+  .deck-map-node {
+    animation: none;
+  }
+
+  .deck-marquee > div {
     animation: none;
   }
 

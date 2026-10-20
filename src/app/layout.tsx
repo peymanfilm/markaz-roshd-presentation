@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Vazirmatn } from "next/font/google";
+import { Amiri, Vazirmatn } from "next/font/google";
 import "./globals.css";
 
 const vazir = Vazirmatn({
@@ -8,12 +8,20 @@ const vazir = Vazirmatn({
   display: "swap",
 });
 
+const amiri = Amiri({
+  variable: "--font-amiri",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "آیین‌نامه مرکز رشد واحدهای فناور علوم انسانی اسلامی | جامعه‌المصطفی العالمیه",
   description:
     "ارائه HTML آیین‌نامه مرکز رشد واحدهای فناور علوم انسانی اسلامی — معاونت پژوهش، جامعه‌المصطفی العالمیه، مهر ۱۴۰۵",
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    /* آیکون محلی است تا در حالت آفلاین هیچ درخواستی به اینترنت زده نشود. */
+    icon: "/logo.svg",
   },
 };
 
@@ -30,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
-      <body className={`${vazir.variable} ${vazir.className} antialiased`}>{children}</body>
+      <body className={`${vazir.variable} ${vazir.className} ${amiri.variable} antialiased`}>{children}</body>
     </html>
   );
 }

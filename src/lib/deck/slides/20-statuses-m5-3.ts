@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۵: گردش‌کار، بخش ۳ (تصمیم شورا) */
+/** ۲۰ — ماده ۵: گردش‌کار، بخش ۳ (تصمیم شورا) */
 const slide: SlideOf<"statuses"> = {
   kind: "statuses",
   title: "ماده ۵: گردش‌کار اجرایی و شرح وظایف ارکان",

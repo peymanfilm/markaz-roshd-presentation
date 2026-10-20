@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — جلد */
+/** ۰۳ — جلد */
 const slide: SlideOf<"cover"> = { kind: "cover" };
 
 export default slide;

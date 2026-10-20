@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import type { SlideData, SlideOf } from "@/lib/deck/types";
+import { AnimatedListView } from "./alist";
 import { Bento6View } from "./bento6";
 import { BismillahView } from "./bismillah";
 import { ChecklistView } from "./checklist";
@@ -41,7 +42,7 @@ export const layouts: Record<SlideData["kind"], SlideLayout> = {
   bismillah: () => <BismillahView />,
   leadership: bind(LeadershipView),
   cover: () => <CoverView />,
-  closing: () => <ClosingView />,
+  closing: bind(ClosingView),
   toc: bind(TocView),
   section: bind(SectionView),
   defs: bind(DefsView),
@@ -50,6 +51,7 @@ export const layouts: Record<SlideData["kind"], SlideLayout> = {
   bento6: bind(Bento6View),
   panels: bind(PanelsView),
   numbered: bind(NumberedView),
+  alist: bind(AnimatedListView),
   checklist: bind(ChecklistView),
   rules: bind(RulesView),
   flow: bind(FlowView),

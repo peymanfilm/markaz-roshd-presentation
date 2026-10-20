@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۱۰: انواع و فرایند خروج از مرکز */
+/** ۳۱ — ماده ۱۰: انواع و فرایند خروج از مرکز */
 const slide: SlideOf<"defs"> = {
   kind: "defs",
   title: "ماده ۱۰: انواع و فرایند خروج از مرکز",

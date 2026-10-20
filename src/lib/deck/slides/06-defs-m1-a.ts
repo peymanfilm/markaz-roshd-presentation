@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۱: تعاریف ۱ تا ۴ */
+/** ۰۶ — ماده ۱: تعاریف ۱ تا ۴ */
 const slide: SlideOf<"defs"> = {
   kind: "defs",
   title: "ماده ۱: تعاریف و اصطلاحات",

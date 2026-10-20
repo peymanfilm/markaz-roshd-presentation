@@ -1,6 +1,6 @@
 import type { SlideOf } from "../types";
 
-/**  — ماده ۵: گردش‌کار، بخش ۵ (پایش و تعیین تکلیف) */
+/** ۲۲ — ماده ۵: گردش‌کار، بخش ۵ (پایش و تعیین تکلیف) */
 const slide: SlideOf<"outcomes"> = {
   kind: "outcomes",
   title: "ماده ۵: گردش‌کار اجرایی و شرح وظایف ارکان",
